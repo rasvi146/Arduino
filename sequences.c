@@ -23,7 +23,7 @@ const int button_Right =
 const int pixels = // whatever that is
 int last_button_pressed = 0; // 0 is not a button, will only happen in initiation
 int brightness = 0;
-uint8_t RGB_array[3] = [1, 1, 1];
+uint8_t RGB_arr[3] = {1, 1, 1};
 
 
 
@@ -42,26 +42,26 @@ for (int it = 0; it<pixels; it++){
 void sequence_Single_Color(int single_Color_Pressed){
 
   switch (single_Color_Pressed){
-    case button_One
-      RGB_array = [1, 0, 0];
+    case button_One:
+      RGB_arr = [1, 0, 0];
       if (last_button_pressed == button_One)
         brightness = on_off();
       last_button_pressed = button_One;
       break;
-    case button_Two
-      RGB_array = [0, 1, 0];
+    case button_Two:
+      RGB_arr = [0, 1, 0];
       if (last_button_pressed == button_Two)
         brightness = on_off();
       last_button_pressed = button_Two;
       break;
-    case button_Three
-      RGB_array = [0, 0, 1];
+    case button_Three:
+      RGB_arr = [0, 0, 1];
       if (last_button_pressed == button_Three)
         brightness = on_off();
       last_button_pressed = button_Three;
       break;
     case button_OK:
-      RGB_array = [1, 1, 1];
+      RGB_arr = [1, 1, 1];
       if (last_button_pressed == button_OK)
         brightness = on_off();
       last_button_pressed = button_OK;
@@ -128,12 +128,12 @@ void sequence_Four(){
 
 
 /*
-* Render the current/chosen LEDs (RGB_array)
+* Render the current/chosen LEDs (RGB_arr)
 *  with the current/chosen brightness
 */
 void render_LEDs(){
   for (uint8_t it=0; it<pixels_; it++){
-    strip.setPixelColor(it, brightness*RGB_array[0], brightness*RGB_array[1], brightness*RGB_array[2]);
+    strip.setPixelColor(it, brightness*RGB_arr[0], brightness*RGB_arr[1], brightness*RGB_arr[2]);
     strip.show();
   }
 }
@@ -217,23 +217,23 @@ void render_LEDs_Editor(){
   for (uint8_t it=0; it<pixels_; it++){
     switch(LED_arr[it]){
       case nothing:
-        RGB_array = [0, 0, 0];
+        RGB_arr = [0, 0, 0];
         break;
       case red:
-        RGB_array = [1, 0, 0];
+        RGB_arr = [1, 0, 0];
         break;
       case green:
-        RGB_array = [0, 1, 0];
+        RGB_arr = [0, 1, 0];
         break;
       case blue:
-        RGB_array = [0, 0, 1];
+        RGB_arr = [0, 0, 1];
         break;
       case white:
-        RGB_array = [1, 1, 1];
+        RGB_arr = [1, 1, 1];
         break;
     }/* switch */
 
-    strip.setPixelColor(it, editor_Brightness[it]*RGB_array[0], editor_Brightness[it]*RGB_array[1], editor_Brightness[it]*RGB_array[2]);
+    strip.setPixelColor(it, editor_Brightness[it]*RGB_arr[0], editor_Brightness[it]*RGB_arr[1], editor_Brightness[it]*RGB_arr[2]);
     strip.show();
   }
 }
