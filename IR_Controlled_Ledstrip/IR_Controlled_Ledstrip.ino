@@ -60,11 +60,16 @@ single_Color_Enum LED_arr[pixels];
 // LED-strip item
 Adafruit_WS2801 strip = Adafruit_WS2801(pixels, dataPin, clockPin);
 
+// IR reader
 enum DataStatus_enum DataStatus = Waiting_for_data;
 int DataPointer = 0;
 long DataBuffer[100];
 int Button = 0;
 unsigned long lastClicked = 0;
+
+// Environmentally friendly
+const unsigned long timer_Off = 8388608; // (= 2^9) millisecs is about 140 minutes
+bool turned_Off = false;
 
 void setup() {
   pinMode(InPin, INPUT);
@@ -83,14 +88,23 @@ void loop() {
     if (BreakTime > 5000){
       DataStatus = Turned_off;
       Decode();
-      if ((micros() - lastClicked) > 500000){  // This will prevent clicks within 0.5 secs
+      if ((millis() - lastClicked) > 500){// This will prevent clicks within 0.5 secs
         ChooseSequence(Button);
-        lastClicked = micros();
+        lastClicked = millis();
+        turned_Off = false;
       }
       DataPointer = Turned_off;
       DataStatus = Waiting_for_data;
     }
   }
+
+  // Will cause LEDs to turn off
+  if (((millis()-lastClicked) > timer_Off) && (turned_Off == false)){
+    reset_LEDs();
+    turned_Off = true;
+  }
+  else if (millis() < lastClicked) // millis()-function rolled over
+    lastClicked = 0;
 }
 
 void reset_LEDs(){
